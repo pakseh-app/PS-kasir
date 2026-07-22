@@ -1,145 +1,155 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Penjualan - KasirKu POS</title>
 
-<title>KasirKu POS</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-<link rel="stylesheet" href="assets/css/style.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
 
-<div class="container">
+        <a href="../index.html" class="navbar-brand">
+            ☕ KasirKu POS
+        </a>
 
-<a class="navbar-brand fw-bold" href="#">
-☕ KasirKu POS
-</a>
+        <a href="../index.html" class="btn btn-outline-light btn-sm">
+            Dashboard
+        </a>
 
-</div>
-
+    </div>
 </nav>
 
 <div class="container mt-4">
 
-<div class="row g-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
 
-<div class="col-md-3">
+        <h3>📈 Laporan Penjualan</h3>
 
-<div class="card shadow-sm text-center p-3">
+        <button
+            class="btn btn-success"
+            id="refreshBtn">
+            Refresh
+        </button>
 
-<h1>🛒</h1>
+    </div>
 
-<h5>Transaksi</h5>
+    <div class="row mb-4">
 
-<a href="transaksi.html" class="btn btn-primary">
-Buka
-</a>
+        <div class="col-md-4">
 
-</div>
+            <div class="card shadow-sm">
 
-</div>
+                <div class="card-body text-center">
 
-<div class="col-md-3">
+                    <h6>Total Penjualan</h6>
 
-<div class="card shadow-sm text-center p-3">
+                    <h3 id="totalPenjualan">
+                        Rp0
+                    </h3>
 
-<h1>📦</h1>
+                </div>
 
-<h5>Barang</h5>
+            </div>
 
-<a href="barang.html" class="btn btn-success">
-Buka
-</a>
+        </div>
 
-</div>
+        <div class="col-md-4">
 
-</div>
+            <div class="card shadow-sm">
 
-<div class="col-md-3">
+                <div class="card-body text-center">
 
-<div class="card shadow-sm text-center p-3">
+                    <h6>Jumlah Transaksi</h6>
 
-<h1>📈</h1>
+                    <h3 id="jumlahTransaksi">
+                        0
+                    </h3>
 
-<h5>Laporan</h5>
+                </div>
 
-<a href="laporan.html" class="btn btn-warning">
-Buka
-</a>
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="col-md-4">
 
-<div class="col-md-3">
+            <div class="card shadow-sm">
 
-<div class="card shadow-sm text-center p-3">
+                <div class="card-body text-center">
 
-<h1>⚙</h1>
+                    <h6>Rata-rata Transaksi</h6>
 
-<h5>Pengaturan</h5>
+                    <h3 id="rataTransaksi">
+                        Rp0
+                    </h3>
 
-<a href="setting.html" class="btn btn-secondary">
-Buka
-</a>
+                </div>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<hr class="my-4">
+    <div class="card shadow">
 
-<div class="row">
+        <div class="card-body">
 
-<div class="col-md-6">
+            <h5>Riwayat Penjualan</h5>
 
-<div class="card shadow-sm">
+            <hr>
 
-<div class="card-body">
+            <div class="table-responsive">
 
-<h6>Total Penjualan Hari Ini</h6>
+                <table class="table table-striped">
 
-<h2 id="todaySales">Rp0</h2>
+                    <thead class="table-dark">
 
-</div>
+                        <tr>
 
-</div>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Total</th>
+                            <th>Tunai</th>
+                            <th>Kembalian</th>
 
-</div>
+                        </tr>
 
-<div class="col-md-6">
+                    </thead>
 
-<div class="card shadow-sm">
+                    <tbody id="laporanTable">
 
-<div class="card-body">
+                        <tr>
 
-<h6>Jumlah Transaksi</h6>
+                            <td colspan="5" class="text-center text-muted">
 
-<h2 id="todayTransaction">0</h2>
+                                Belum ada transaksi.
 
-</div>
+                            </td>
 
-</div>
+                        </tr>
 
-</div>
+                    </tbody>
 
-</div>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/dexie@4/dist/dexie.js"></script>
-
-<script type="module" src="assets/js/app.js"></script>
+<script type="module" src="../assets/js/laporan.js"></script>
 
 </body>
 </html>

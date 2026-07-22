@@ -43,3 +43,53 @@ background:#6F4E37;
 border:none;
 
 }
+
+/* ==========================
+   PRODUK
+========================== */
+
+.produk-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:18px;
+}
+
+.produk-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:18px;
+    transition:.25s;
+}
+
+.produk-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 25px rgba(0,0,0,.08);
+}
+
+.produk-harga{
+    font-size:24px;
+    color:#198754;
+    font-weight:bold;
+}
+
+.produk-stok{
+    color:#6c757d;
+    margin-top:8px;
+}
+
+.btn-tambah{
+    width:100%;
+}
+
+/* ==========================
+   KERANJANG
+========================== */
+
+.cart-item{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:12px;
+}

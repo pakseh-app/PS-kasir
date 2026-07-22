@@ -1,0 +1,140 @@
+/* ==========================
+   DAFTAR PRODUK
+========================== */
+
+.produk-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:16px;
+    align-content:start;
+}
+
+/* Card Produk */
+
+.produk-card{
+    background:#fff;
+    border-radius:16px;
+    padding:16px;
+    border:1px solid #e5e7eb;
+    cursor:pointer;
+    transition:.25s;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:190px;
+}
+
+.produk-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+
+.produk-card h4{
+    margin:0;
+    font-size:17px;
+    font-weight:600;
+    color:#111827;
+}
+
+.produk-harga{
+    margin-top:10px;
+    font-size:22px;
+    font-weight:bold;
+    color:#16a34a;
+}
+
+.produk-stok{
+    margin-top:8px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+.btn-tambah{
+    margin-top:16px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    padding:10px;
+    background:#2563eb;
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-tambah:hover{
+    background:#1d4ed8;
+}
+
+/* ===========================
+   GRID PRODUK
+=========================== */
+
+.produk-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+
+    gap:18px;
+
+}
+
+/* CARD PRODUK */
+
+.produk-card{
+
+    border:1px solid #ddd;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    background:white;
+
+    transition:.2s;
+
+    cursor:pointer;
+
+}
+
+.produk-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.produk-card h5{
+
+    font-size:18px;
+
+    margin-bottom:10px;
+
+}
+
+.produk-harga{
+
+    color:#198754;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.produk-stok{
+
+    color:#777;
+
+    font-size:14px;
+
+    margin-bottom:15px;
+
+}
+
+.btn-tambah{
+
+    width:100%;
+
+}

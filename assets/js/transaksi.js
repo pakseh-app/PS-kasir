@@ -15,38 +15,35 @@ const barang=await db.barang.toArray();
 
 daftarBarang.innerHTML="";
 
-barang.forEach(item=>{
+barang.forEach(item => {
 
-daftarBarang.innerHTML+=`
+    daftarBarang.innerHTML += `
 
-<div class="card mb-2">
+    <div class="produk-card">
 
-<div class="card-body">
+        <h5>${item.nama}</h5>
 
-<h5>${item.nama}</h5>
+        <div class="produk-harga">
+            Rp ${item.harga.toLocaleString()}
+        </div>
 
-<p>
+        <div class="produk-stok">
+            Stok : ${item.stok}
+        </div>
 
-Rp ${item.harga.toLocaleString()}
+        <button
+            class="btn btn-success btn-tambah mt-3"
+            onclick="tambahKeranjang(${item.id})">
 
-</p>
+            + Tambah
 
-<button
-class="btn btn-success"
-onclick="tambahKeranjang(${item.id})">
+        </button>
 
-Tambah
+    </div>
 
-</button>
-
-</div>
-
-</div>
-
-`;
+    `;
 
 });
-
 }
 
 window.tambahKeranjang=async(id)=>{
@@ -114,37 +111,55 @@ keranjang.forEach(item=>{
 
 total+=item.qty*item.harga;
 
-keranjangDiv.innerHTML+=`
+keranjangDiv.innerHTML += `
 
-<div class="border rounded p-2 mb-2">
+<div class="cart-item">
 
-<b>${item.nama}</b>
+    <div class="d-flex justify-content-between">
 
-<br>
+        <strong>${item.nama}</strong>
 
-${item.qty}
+        <strong>
+            Rp ${(item.qty * item.harga).toLocaleString()}
+        </strong>
 
-x
+    </div>
 
-Rp ${item.harga.toLocaleString()}
+    <div class="text-muted small">
 
-<br><br>
+        Rp ${item.harga.toLocaleString()} / pcs
 
-<button
-class="btn btn-danger btn-sm"
-onclick="minus(${item.id})">
+    </div>
 
--
+    <div class="d-flex justify-content-between align-items-center mt-2">
 
-</button>
+        <div>
 
-<button
-class="btn btn-success btn-sm"
-onclick="plus(${item.id})">
+            <button
+                class="btn btn-outline-danger btn-sm"
+                onclick="minus(${item.id})">
 
-+
+                −
 
-</button>
+            </button>
+
+            <span class="mx-2 fw-bold">
+
+                ${item.qty}
+
+            </span>
+
+            <button
+                class="btn btn-outline-success btn-sm"
+                onclick="plus(${item.id})">
+
+                +
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 

@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Preview Struk</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-
 body{
     background:#ececec;
     padding:30px;
@@ -118,28 +104,20 @@ button{
 
     body{
 
-    background:white;
+        background:white;
+        padding:0;
+        margin:0;
 
-    margin:0;
-    padding:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-
-    width:100%;
-    min-height:100vh;
-
-}
+    }
 
     #receipt{
 
-    width:80mm;
-    padding:5mm;
-    margin:10mm auto;
-    box-shadow:none;
+        width:80mm;
+        padding:5mm;
+        margin:0;
+        box-shadow:none;
 
-}
+    }
 
     #printBtn{
 
@@ -151,178 +129,7 @@ button{
 
 @page{
 
-    size:auto;
-    margin:0;
+    size:80mm auto;
+    margin:2mm;
 
 }
-
-</style>
-
-</head>
-
-<body>
-
-<div id="receipt">
-
-<div class="center">
-
-<img
-id="logo"
-src="../assets/img/logo.png"
-onerror="this.style.display='none'">
-
-<h4 id="namaToko">
-
-KasirKu POS
-
-</h4>
-
-<div
-class="small"
-id="alamat">
-
-Alamat Toko
-
-</div>
-
-<div
-class="small"
-id="telepon">
-
-0812-3456-7890
-
-</div>
-
-</div>
-
-<hr>
-
-<div
-class="small"
-id="tanggal">
-
-</div>
-
-<hr>
-
-<div id="items">
-
-</div>
-
-<hr>
-
-<div class="total-row">
-
-<span>Total</span>
-
-<span id="total">Rp0</span>
-
-</div>
-
-<div class="total-row">
-
-<span>Tunai</span>
-
-<span id="tunai">Rp0</span>
-
-</div>
-
-<div class="total-row">
-
-<span>Kembalian</span>
-
-<span id="kembali">Rp0</span>
-
-</div>
-
-<hr>
-
-<div class="center small">
-
-Terima kasih 😊
-
-<br>
-
-Selamat Berbelanja
-
-</div>
-
-<button
-id="printBtn"
-class="btn btn-success w-100">
-
-🖨 Cetak Struk
-
-</button>
-
-</div>
-
-<script>
-
-const items = JSON.parse(localStorage.getItem("keranjang")) || [];
-
-const total = localStorage.getItem("total") || "Rp0";
-const tunai = localStorage.getItem("tunai") || "Rp0";
-const kembali = localStorage.getItem("kembali") || "Rp0";
-
-const itemDiv = document.getElementById("items");
-
-const now = new Date();
-
-document.getElementById("tanggal").innerHTML =
-`
-Tanggal : ${now.toLocaleDateString("id-ID")}
-<br>
-Jam : ${now.toLocaleTimeString("id-ID")}
-`;
-
-items.forEach(item=>{
-
-itemDiv.innerHTML += `
-
-<div class="item">
-
-    <div class="item-row">
-
-        <div class="item-left">
-
-            <b>${item.nama}</b><br>
-
-            ${item.qty} × Rp ${item.harga.toLocaleString("id-ID")}
-
-        </div>
-
-        <div class="item-right">
-
-            Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
-
-        </div>
-
-    </div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("total").innerHTML = total;
-document.getElementById("tunai").innerHTML = tunai;
-document.getElementById("kembali").innerHTML = kembali;
-
-document.getElementById("printBtn").addEventListener("click",()=>{
-
-window.print();
-
-});
-
-window.onafterprint=()=>{
-
-window.close();
-
-};
-
-</script>
-
-</body>
-</html>

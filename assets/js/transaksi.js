@@ -5,6 +5,7 @@ const keranjangDiv=document.getElementById("keranjang");
 const totalBelanja=document.getElementById("totalBelanja");
 const bayar=document.getElementById("bayar");
 const previewBtn=document.getElementById("previewBtn");
+const cetakBtn=document.getElementById("cetakBtn");
 const kembalian=document.getElementById("kembalian");
 
 let keranjang=[];
@@ -217,3 +218,15 @@ window.open(
 );
 
 }
+
+cetakBtn.onclick = () => {
+
+    previewBtn.click();
+
+    setTimeout(() => {
+
+        window.print();
+
+    }, 500);
+
+};

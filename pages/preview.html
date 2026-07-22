@@ -66,6 +66,36 @@ hr{
 
 }
 
+.item-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    width:100%;
+    gap:10px;
+}
+
+.item-left{
+    flex:1;
+    word-break:break-word;
+}
+
+.item-right{
+    width:80px;
+    text-align:right;
+    white-space:nowrap;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    margin:4px 0;
+}
+
+.total-row span:last-child{
+    text-align:right;
+    min-width:90px;
+}
+
 .total-table{
 
     width:100%;
@@ -173,45 +203,29 @@ id="tanggal">
 
 <hr>
 
-<table class="total-table">
+<div class="total-row">
 
-<tr>
+<span>Total</span>
 
-<td>Total</td>
+<span id="total">Rp0</span>
 
-<td align="right" id="total">
+</div>
 
-Rp0
+<div class="total-row">
 
-</td>
+<span>Tunai</span>
 
-</tr>
+<span id="tunai">Rp0</span>
 
-<tr>
+</div>
 
-<td>Tunai</td>
+<div class="total-row">
 
-<td align="right" id="tunai">
+<span>Kembalian</span>
 
-Rp0
+<span id="kembali">Rp0</span>
 
-</td>
-
-</tr>
-
-<tr>
-
-<td>Kembalian</td>
-
-<td align="right" id="kembali">
-
-Rp0
-
-</td>
-
-</tr>
-
-</table>
+</div>
 
 <hr>
 
@@ -260,23 +274,23 @@ itemDiv.innerHTML += `
 
 <div class="item">
 
-<div style="display:flex;justify-content:space-between;">
+    <div class="item-row">
 
-<div>
+        <div class="item-left">
 
-<b>${item.nama}</b><br>
+            <b>${item.nama}</b><br>
 
-${item.qty} x Rp ${item.harga.toLocaleString("id-ID")}
+            ${item.qty} × Rp ${item.harga.toLocaleString("id-ID")}
 
-</div>
+        </div>
 
-<div>
+        <div class="item-right">
 
-Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
+            Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div>
 

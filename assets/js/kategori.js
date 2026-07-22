@@ -1,5 +1,10 @@
 import db from "./db.js";
 
+db.open().then(() => {
+    console.log("Versi DB :", db.verno);
+    console.log("Tables :", db.tables.map(t => t.name));
+});
+
 const namaKategori = document.getElementById("namaKategori");
 const btnTambah = document.getElementById("btnTambah");
 const kategoriTable = document.getElementById("kategoriTable");

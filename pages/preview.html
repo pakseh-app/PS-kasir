@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Preview Struk</title>
 
@@ -11,36 +13,108 @@
 <style>
 
 body{
-
-background:#eee;
-
-padding:20px;
-
+    background:#ececec;
+    padding:30px;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 #receipt{
 
-width:320px;
-
-margin:auto;
-
-background:white;
-
-padding:20px;
-
-font-family:monospace;
+    width:80mm;
+    margin:auto;
+    background:white;
+    padding:15px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
 
 }
 
 .center{
 
-text-align:center;
+    text-align:center;
+
+}
+
+#logo{
+
+    width:70px;
+    margin-bottom:10px;
+
+}
+
+h4{
+
+    margin:0;
+
+}
+
+.small{
+
+    font-size:13px;
 
 }
 
 hr{
 
-border-top:dashed 1px black;
+    border-top:1px dashed #000;
+    opacity:1;
+
+}
+
+.item{
+
+    margin-bottom:8px;
+
+}
+
+.total-table{
+
+    width:100%;
+
+}
+
+.total-table td{
+
+    padding:3px 0;
+
+}
+
+button{
+
+    margin-top:20px;
+
+}
+
+@media print{
+
+    body{
+
+        background:white;
+        padding:0;
+        margin:0;
+
+    }
+
+    #receipt{
+
+        width:80mm;
+        padding:5mm;
+        margin:0;
+        box-shadow:none;
+
+    }
+
+    #printBtn{
+
+        display:none;
+
+    }
+
+}
+
+@page{
+
+    size:80mm auto;
+    margin:2mm;
 
 }
 
@@ -57,7 +131,7 @@ border-top:dashed 1px black;
 <img
 id="logo"
 src="../assets/img/logo.png"
-width="80">
+onerror="this.style.display='none'">
 
 <h4 id="namaToko">
 
@@ -65,11 +139,29 @@ KasirKu POS
 
 </h4>
 
-<div id="alamat">
+<div
+class="small"
+id="alamat">
 
 Alamat Toko
 
 </div>
+
+<div
+class="small"
+id="telepon">
+
+0812-3456-7890
+
+</div>
+
+</div>
+
+<hr>
+
+<div
+class="small"
+id="tanggal">
 
 </div>
 
@@ -81,14 +173,13 @@ Alamat Toko
 
 <hr>
 
-<table width="100%">
+<table class="total-table">
 
 <tr>
 
 <td>Total</td>
 
-<td align="right"
-id="total">
+<td align="right" id="total">
 
 Rp0
 
@@ -100,8 +191,7 @@ Rp0
 
 <td>Tunai</td>
 
-<td align="right"
-id="tunai">
+<td align="right" id="tunai">
 
 Rp0
 
@@ -111,10 +201,9 @@ Rp0
 
 <tr>
 
-<td>Kembali</td>
+<td>Kembalian</td>
 
-<td align="right"
-id="kembali">
+<td align="right" id="kembali">
 
 Rp0
 
@@ -126,41 +215,68 @@ Rp0
 
 <hr>
 
-<div
-class="center"
-id="footer">
+<div class="center small">
 
-Terima kasih
+Terima kasih 😊
+
+<br>
+
+Selamat Berbelanja
 
 </div>
+
+<button
+id="printBtn"
+class="btn btn-success w-100">
+
+🖨 Cetak Struk
+
+</button>
 
 </div>
 
 <script>
 
-const items=
+const items = JSON.parse(localStorage.getItem("keranjang")) || [];
 
-JSON.parse(
+const total = localStorage.getItem("total") || "Rp0";
+const tunai = localStorage.getItem("tunai") || "Rp0";
+const kembali = localStorage.getItem("kembali") || "Rp0";
 
-localStorage.getItem("keranjang")
+const itemDiv = document.getElementById("items");
 
-)||[];
+const now = new Date();
 
-const div=
+document.getElementById("tanggal").innerHTML =
+`
+Tanggal : ${now.toLocaleDateString("id-ID")}
+<br>
+Jam : ${now.toLocaleTimeString("id-ID")}
+`;
 
-document.getElementById("items");
+items.forEach(item=>{
 
-items.forEach(x=>{
+itemDiv.innerHTML += `
 
-div.innerHTML+=`
+<div class="item">
+
+<div style="display:flex;justify-content:space-between;">
 
 <div>
 
-${x.nama}
+<b>${item.nama}</b><br>
 
-<br>
+${item.qty} x Rp ${item.harga.toLocaleString("id-ID")}
 
-${x.qty} x Rp ${x.harga.toLocaleString()}
+</div>
+
+<div>
+
+Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
+
+</div>
+
+</div>
 
 </div>
 
@@ -168,20 +284,23 @@ ${x.qty} x Rp ${x.harga.toLocaleString()}
 
 });
 
-document.getElementById("total").innerHTML=
+document.getElementById("total").innerHTML = total;
+document.getElementById("tunai").innerHTML = tunai;
+document.getElementById("kembali").innerHTML = kembali;
 
-localStorage.getItem("total");
+document.getElementById("printBtn").addEventListener("click",()=>{
 
-document.getElementById("tunai").innerHTML=
+window.print();
 
-localStorage.getItem("tunai");
+});
 
-document.getElementById("kembali").innerHTML=
+window.onafterprint=()=>{
 
-localStorage.getItem("kembali");
+window.close();
+
+};
 
 </script>
 
 </body>
-
 </html>

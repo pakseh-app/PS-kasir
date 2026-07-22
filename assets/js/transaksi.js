@@ -5,7 +5,6 @@ const keranjangDiv=document.getElementById("keranjang");
 const totalBelanja=document.getElementById("totalBelanja");
 const bayar=document.getElementById("bayar");
 const previewBtn=document.getElementById("previewBtn");
-const cetakBtn=document.getElementById("cetakBtn");
 const kembalian=document.getElementById("kembalian");
 
 let keranjang=[];
@@ -175,58 +174,36 @@ bayar.addEventListener("keyup",render);
 
 loadBarang();
 
-previewBtn.onclick=()=>{
+previewBtn.onclick = () => {
 
-localStorage.setItem(
+    localStorage.setItem(
+        "keranjang",
+        JSON.stringify(keranjang)
+    );
 
-"keranjang",
+    localStorage.setItem(
+        "total",
+        totalBelanja.innerText
+    );
 
-JSON.stringify(keranjang)
+    localStorage.setItem(
+        "tunai",
+        "Rp " + Number(bayar.value).toLocaleString()
+    );
 
-);
+    localStorage.setItem(
+        "kembali",
+        kembalian.innerText
+    );
 
-localStorage.setItem(
+    const previewWindow = window.open(
+        "preview.html",
+        "_blank"
+    );
 
-"total",
-
-totalBelanja.innerText
-
-);
-
-localStorage.setItem(
-
-"tunai",
-
-"Rp "+Number(bayar.value).toLocaleString()
-
-);
-
-localStorage.setItem(
-
-"kembali",
-
-kembalian.innerText
-
-);
-
-window.open(
-
-"preview.html",
-
-"_blank"
-
-);
-
-}
-
-cetakBtn.onclick = () => {
-
-    previewBtn.click();
-
-    setTimeout(() => {
-
-        window.print();
-
-    }, 500);
+    if (previewWindow) {
+        previewWindow.focus();
+    }
 
 };
+

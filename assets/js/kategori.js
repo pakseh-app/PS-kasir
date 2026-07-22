@@ -1,121 +1,88 @@
-const STORAGE_KEY = "kategoriKasir";
+import db from "./db.js";
 
-let kategori = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+const namaKategori = document.getElementById("namaKategori");
+const btnTambah = document.getElementById("btnTambah");
+const kategoriTable = document.getElementById("kategoriTable");
 
-const input = document.getElementById("namaKategori");
+async function loadKategori() {
 
-const table = document.getElementById("kategoriTable");
+    const data = await db.kategori.toArray();
 
-const btn = document.getElementById("btnTambah");
+    kategoriTable.innerHTML = "";
 
-let editIndex = null;
+    if (data.length === 0) {
 
-function simpan() {
+        kategoriTable.innerHTML = `
+            <tr>
+                <td colspan="3" class="text-center text-muted">
+                    Belum ada kategori.
+                </td>
+            </tr>
+        `;
 
-localStorage.setItem(STORAGE_KEY, JSON.stringify(kategori));
+        return;
+    }
 
-}
+    data.forEach((item, index) => {
 
-function render() {
+        kategoriTable.innerHTML += `
+            <tr>
 
-table.innerHTML = "";
+                <td>${index + 1}</td>
 
-kategori.forEach((item,index)=>{
+                <td>${item.nama}</td>
 
-table.innerHTML += `
+                <td>
 
-<tr>
+                    <button
+                        class="btn btn-danger btn-sm"
+                        onclick="hapusKategori(${item.id})">
 
-<td>${index+1}</td>
+                        🗑 Hapus
 
-<td>${item.nama}</td>
+                    </button>
 
-<td>
+                </td>
 
-<button onclick="editKategori(${index})">
+            </tr>
+        `;
 
-Edit
-
-</button>
-
-<button onclick="hapusKategori(${index})">
-
-Hapus
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
+    });
 
 }
 
-btn.onclick = ()=>{
+btnTambah.onclick = async () => {
 
-const nama = input.value.trim();
+    const nama = namaKategori.value.trim();
 
-if(nama===""){
+    if (!nama) {
 
-alert("Nama kategori wajib diisi");
+        alert("Nama kategori masih kosong.");
 
-return;
+        return;
 
-}
+    }
 
-if(editIndex===null){
+    await db.kategori.add({
 
-kategori.push({
+        nama
 
-id:Date.now(),
+    });
 
-nama
+    namaKategori.value = "";
 
-});
-
-}else{
-
-kategori[editIndex].nama = nama;
-
-editIndex=null;
-
-btn.innerText="Tambah";
-
-}
-
-input.value="";
-
-simpan();
-
-render();
+    loadKategori();
 
 };
 
-function editKategori(index){
+window.hapusKategori = async (id) => {
 
-input.value = kategori[index].nama;
+    if (!confirm("Hapus kategori ini?")) return;
 
-editIndex=index;
+    await db.kategori.delete(id);
 
-btn.innerText="Update";
+    loadKategori();
 
-}
+};
 
-function hapusKategori(index){
-
-if(confirm("Hapus kategori?")){
-
-kategori.splice(index,1);
-
-simpan();
-
-render();
-
-}
-
-}
-
-render();
+loadKategori();

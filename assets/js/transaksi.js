@@ -210,7 +210,7 @@ kembalian.innerText
 
 window.open(
 
-"receipt/preview.html",
+"preview.html",
 
 "_blank"
 

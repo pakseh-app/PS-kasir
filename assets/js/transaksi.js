@@ -21,23 +21,40 @@ barang.forEach(item => {
 
     <div class="produk-card">
 
-        <h5>${item.nama}</h5>
+        <img
+            class="produk-img"
+            src="../assets/img/no-image.png"
+            alt="${item.nama}">
 
-        <div class="produk-harga">
-            Rp ${item.harga.toLocaleString()}
+        <div class="produk-body">
+
+            <div class="produk-nama">
+
+                ${item.nama}
+
+            </div>
+
+            <div class="produk-harga">
+
+                Rp ${item.harga.toLocaleString()}
+
+            </div>
+
+            <div class="produk-stok">
+
+                Stok ${item.stok}
+
+            </div>
+
+            <button
+                class="btn btn-success btn-tambah"
+                onclick="tambahKeranjang(${item.id})">
+
+                + Tambah
+
+            </button>
+
         </div>
-
-        <div class="produk-stok">
-            Stok : ${item.stok}
-        </div>
-
-        <button
-            class="btn btn-success btn-tambah mt-3"
-            onclick="tambahKeranjang(${item.id})">
-
-            + Tambah
-
-        </button>
 
     </div>
 
@@ -107,50 +124,56 @@ keranjangDiv.innerHTML="";
 
 let total=0;
 
-keranjang.forEach(item=>{
+keranjang.forEach(item => {
 
-total+=item.qty*item.harga;
+    const subtotal = item.qty * item.harga;
 
-keranjangDiv.innerHTML += `
+    total += subtotal;
 
-<div class="cart-item">
+    keranjangDiv.innerHTML += `
 
-    <div class="d-flex justify-content-between">
+    <div class="item-cart">
 
-        <strong>${item.nama}</strong>
+        <div class="item-info">
 
-        <strong>
-            Rp ${(item.qty * item.harga).toLocaleString()}
-        </strong>
+            <div class="item-nama">
 
-    </div>
+                ${item.nama}
 
-    <div class="text-muted small">
+            </div>
 
-        Rp ${item.harga.toLocaleString()} / pcs
+            <div class="item-harga">
 
-    </div>
+                Rp ${item.harga.toLocaleString()} × ${item.qty}
 
-    <div class="d-flex justify-content-between align-items-center mt-2">
+            </div>
 
-        <div>
+            <div class="fw-bold mt-1 text-success">
+
+                Rp ${subtotal.toLocaleString()}
+
+            </div>
+
+        </div>
+
+        <div class="qty-box">
 
             <button
-                class="btn btn-outline-danger btn-sm"
+                class="qty-btn"
                 onclick="minus(${item.id})">
 
                 −
 
             </button>
 
-            <span class="mx-2 fw-bold">
+            <span class="qty-value">
 
                 ${item.qty}
 
             </span>
 
             <button
-                class="btn btn-outline-success btn-sm"
+                class="qty-btn"
                 onclick="plus(${item.id})">
 
                 +
@@ -161,9 +184,7 @@ keranjangDiv.innerHTML += `
 
     </div>
 
-</div>
-
-`;
+    `;
 
 });
 

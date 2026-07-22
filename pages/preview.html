@@ -67,43 +67,33 @@ hr{
 }
 
 .item-row{
-
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     width:100%;
     gap:10px;
-
 }
 
 .item-left{
-
     flex:1;
     word-break:break-word;
-
 }
 
 .item-right{
-
     width:80px;
     text-align:right;
     white-space:nowrap;
-
 }
 
 .total-row{
-
     display:flex;
     justify-content:space-between;
     margin:4px 0;
-
 }
 
 .total-row span:last-child{
-
     text-align:right;
     min-width:90px;
-
 }
 
 .total-table{
@@ -153,8 +143,8 @@ button{
 
 @page{
 
-    size:80mm auto;
-    margin:2mm;
+    size:auto;
+    margin:0;
 
 }
 
@@ -166,96 +156,96 @@ button{
 
 <div id="receipt">
 
-    <div class="center">
+<div class="center">
 
-        <img
-        id="logo"
-        src="../assets/img/logo.png"
-        onerror="this.style.display='none'">
+<img
+id="logo"
+src="../assets/img/logo.png"
+onerror="this.style.display='none'">
 
-        <h4 id="namaToko">
+<h4 id="namaToko">
 
-            KasirKu POS
+KasirKu POS
 
-        </h4>
+</h4>
 
-        <div
-        class="small"
-        id="alamat">
+<div
+class="small"
+id="alamat">
 
-            Alamat Toko
+Alamat Toko
 
-        </div>
+</div>
 
-        <div
-        class="small"
-        id="telepon">
+<div
+class="small"
+id="telepon">
 
-            0812-3456-7890
+0812-3456-7890
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <hr>
+<hr>
 
-    <div
-    class="small"
-    id="tanggal">
+<div
+class="small"
+id="tanggal">
 
-    </div>
+</div>
 
-    <hr>
+<hr>
 
-    <div id="items">
+<div id="items">
 
-    </div>
+</div>
 
-    <hr>
+<hr>
 
-    <div class="total-row">
+<div class="total-row">
 
-        <span>Total</span>
+<span>Total</span>
 
-        <span id="total">Rp0</span>
+<span id="total">Rp0</span>
 
-    </div>
+</div>
 
-    <div class="total-row">
+<div class="total-row">
 
-        <span>Tunai</span>
+<span>Tunai</span>
 
-        <span id="tunai">Rp0</span>
+<span id="tunai">Rp0</span>
 
-    </div>
+</div>
 
-    <div class="total-row">
+<div class="total-row">
 
-        <span>Kembalian</span>
+<span>Kembalian</span>
 
-        <span id="kembali">Rp0</span>
+<span id="kembali">Rp0</span>
 
-    </div>
+</div>
 
-    <hr>
+<hr>
 
-    <div class="center small">
+<div class="center small">
 
-        Terima kasih 😊
+Terima kasih 😊
 
-        <br>
+<br>
 
-        Selamat Berbelanja
+Selamat Berbelanja
 
-    </div>
+</div>
 
-    <button
-    id="printBtn"
-    class="btn btn-success w-100">
+<button
+id="printBtn"
+class="btn btn-success w-100">
 
-        🖨 Cetak Struk
+🖨 Cetak Struk
 
-    </button>
+</button>
 
 </div>
 
@@ -271,39 +261,40 @@ const itemDiv = document.getElementById("items");
 
 const now = new Date();
 
-document.getElementById("tanggal").innerHTML = `
+document.getElementById("tanggal").innerHTML =
+`
 Tanggal : ${now.toLocaleDateString("id-ID")}
 <br>
 Jam : ${now.toLocaleTimeString("id-ID")}
 `;
 
-items.forEach(item => {
+items.forEach(item=>{
 
-    itemDiv.innerHTML += `
+itemDiv.innerHTML += `
 
-    <div class="item">
+<div class="item">
 
-        <div class="item-row">
+    <div class="item-row">
 
-            <div class="item-left">
+        <div class="item-left">
 
-                <b>${item.nama}</b><br>
+            <b>${item.nama}</b><br>
 
-                ${item.qty} × Rp ${item.harga.toLocaleString("id-ID")}
+            ${item.qty} × Rp ${item.harga.toLocaleString("id-ID")}
 
-            </div>
+        </div>
 
-            <div class="item-right">
+        <div class="item-right">
 
-                Rp ${(item.qty * item.harga).toLocaleString("id-ID")}
-
-            </div>
+            Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
 
         </div>
 
     </div>
 
-    `;
+</div>
+
+`;
 
 });
 
@@ -311,20 +302,19 @@ document.getElementById("total").innerHTML = total;
 document.getElementById("tunai").innerHTML = tunai;
 document.getElementById("kembali").innerHTML = kembali;
 
-document.getElementById("printBtn").addEventListener("click", () => {
+document.getElementById("printBtn").addEventListener("click",()=>{
 
-    window.print();
+window.print();
 
 });
 
-window.onafterprint = () => {
+window.onafterprint=()=>{
 
-    window.close();
+window.close();
 
 };
 
 </script>
 
 </body>
-
 </html>

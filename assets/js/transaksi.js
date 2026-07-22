@@ -210,7 +210,80 @@ bayar.addEventListener("keyup",render);
 
 loadBarang();
 
-previewBtn.onclick = () => {
+previewBtn.onclick = async () => {
+
+    if (keranjang.length === 0) {
+        alert("Keranjang masih kosong.");
+        return;
+    }
+
+    const total = keranjang.reduce(
+        (sum, item) => sum + (item.qty * item.harga),
+        0
+    );
+
+    const tunai = Number(bayar.value);
+
+    if (tunai < total) {
+        alert("Uang pembayaran kurang.");
+        return;
+    }
+
+    const kembali = tunai - total;
+
+    // ============================
+    // SIMPAN TRANSAKSI
+    // ============================
+
+    const transaksiId = await db.transaksi.add({
+
+        tanggal: new Date().toLocaleString("id-ID"),
+
+        total: total,
+
+        tunai: tunai,
+
+        kembalian: kembali
+
+    });
+
+    // ============================
+    // SIMPAN DETAIL
+    // ============================
+
+    for (const item of keranjang) {
+
+        await db.detail.add({
+
+            transaksiId: transaksiId,
+
+            barangId: item.id,
+
+            nama: item.nama,
+
+            harga: item.harga,
+
+            qty: item.qty
+
+        });
+
+        // ============================
+        // KURANGI STOK
+        // ============================
+
+        const barang = await db.barang.get(item.id);
+
+        await db.barang.update(item.id, {
+
+            stok: barang.stok - item.qty
+
+        });
+
+    }
+
+    // ============================
+    // KIRIM KE PREVIEW
+    // ============================
 
     localStorage.setItem(
         "keranjang",
@@ -219,27 +292,31 @@ previewBtn.onclick = () => {
 
     localStorage.setItem(
         "total",
-        totalBelanja.innerText
+        "Rp " + total.toLocaleString("id-ID")
     );
 
     localStorage.setItem(
         "tunai",
-        "Rp " + Number(bayar.value).toLocaleString()
+        "Rp " + tunai.toLocaleString("id-ID")
     );
 
     localStorage.setItem(
         "kembali",
-        kembalian.innerText
+        "Rp " + kembali.toLocaleString("id-ID")
     );
 
-    const previewWindow = window.open(
-        "preview.html",
-        "_blank"
-    );
+    window.open("preview.html", "_blank");
 
-    if (previewWindow) {
-        previewWindow.focus();
-    }
+    // ============================
+    // RESET HALAMAN
+    // ============================
+
+    keranjang = [];
+
+    bayar.value = "";
+
+    render();
+
+    loadBarang();
 
 };
-

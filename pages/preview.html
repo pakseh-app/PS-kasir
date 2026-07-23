@@ -338,9 +338,11 @@ document.getElementById("kembali").textContent = kembali;
 
 const db = new Dexie("KasirKuDB");
 
-db.version(1).stores({
+db.version(2).stores({
 
     barang: "++id,nama,kategori,harga,stok",
+
+    kategori: "++id,nama",
 
     transaksi: "++id,tanggal,total,tunai,kembalian",
 
@@ -349,7 +351,7 @@ db.version(1).stores({
     setting: "id"
 
 });
-
+    
 db.setting.get(1).then(setting=>{
 
     if(!setting) return;

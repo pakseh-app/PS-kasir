@@ -363,22 +363,23 @@ db.setting.get(1).then(setting=>{
     document.getElementById("telepon").textContent =
         setting.telepon || "-";
 
-    document.getElementById("footerStruk").innerHTML =
-(
-    setting.footer ||
+    const footerText =
+setting?.footer?.trim() ||
 
 `Terima kasih
 telah berbelanja
 
 Yang mau dibuatin
-Aplikasi Kasir
+Aplikasi Kasir seperti ini
+langsung chat saja
 
 WA
 085156028912
 
-Powered by Pakseh`
+Powered by Pakseh`;
 
-).replace(/\n/g,"<br>");
+document.getElementById("footerStruk").innerHTML =
+footerText.replace(/\n/g,"<br>");
 
 });
 

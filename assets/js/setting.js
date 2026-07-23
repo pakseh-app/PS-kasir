@@ -28,14 +28,34 @@ const previewFooter = document.getElementById("previewFooter");
 // ===============================
 
 const defaultSetting = {
-    id: 1,
-    namaToko: "KasirKu POS",
-    alamat: "Alamat Toko",
-    telepon: "0812-3456-7890",
-    footer: "Terima kasih telah berbelanja 😊",
-    showAlamat: true,
-    showTelepon: true,
-    showTanggal: true
+    id:1,
+
+    namaToko:"Pakseh",
+
+    alamat:"Alamat Toko",
+
+    telepon:"085156028912",
+
+    footer:`========================
+
+Terima kasih
+telah berbelanja
+
+Yang mau dibuatin
+Aplikasi Kasir
+
+WA
+085156028912
+
+Powered by Pakseh
+
+========================`,
+
+    showAlamat:true,
+
+    showTelepon:true,
+
+    showTanggal:true
 };
 
 // ===============================
@@ -77,7 +97,8 @@ async function loadSetting() {
     namaToko.value = setting.namaToko;
     alamat.value = setting.alamat;
     telepon.value = setting.telepon;
-    footer.value = setting.footer;
+    footer.value =
+    setting.footer || defaultSetting.footer;
 
     showAlamat.checked = setting.showAlamat;
     showTelepon.checked = setting.showTelepon;
@@ -103,7 +124,7 @@ saveBtn.addEventListener("click", async () => {
 
         telepon:telepon.value,
 
-        footer:footer.value,
+        footer:footer.value.trim(),
 
         showAlamat:showAlamat.checked,
 

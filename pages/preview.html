@@ -15,7 +15,7 @@
 body{
     background:#ececec;
     padding:30px;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 #receipt{
@@ -25,9 +25,9 @@ body{
     background:#fff;
     padding:4mm;
     color:#000;
+    box-sizing:border-box;
     font-size:13px;
     line-height:1.4;
-    box-sizing:border-box;
 }
 
 .center{
@@ -53,10 +53,11 @@ hr{
     border:none;
     border-top:1px dashed #000;
     margin:6px 0;
+    opacity:1;
 }
 
 .item{
-    margin-bottom:6px;
+    margin-bottom:7px;
 }
 
 .item-row{
@@ -92,40 +93,34 @@ hr{
 }
 
 button{
-    margin-top:15px;
+    margin-top:18px;
 }
+
 @media print{
 
     body{
-
-        background:white;
-        padding:0;
         margin:0;
-
+        padding:0;
+        background:#fff;
     }
 
     #receipt{
-
         width:80mm;
-        padding:5mm;
-        margin:0;
+        max-width:80mm;
+        margin:0 auto;
+        padding:3mm;
         box-shadow:none;
-
     }
 
     #printBtn{
-
         display:none;
-
     }
 
 }
 
 @page{
-
-    size:auto;
+    size:80mm auto;
     margin:0;
-
 }
 
 </style>
@@ -150,17 +145,13 @@ Pakseh
 <div
 class="small"
 id="alamat">
-
 Alamat Toko
-
 </div>
 
 <div
 class="small"
 id="telepon">
-
-0812-3456-7890
-
+-
 </div>
 
 </div>
@@ -170,39 +161,28 @@ id="telepon">
 <div
 class="small"
 id="tanggal">
-
 </div>
 
 <hr>
 
 <div id="items">
-
 </div>
 
 <hr>
 
 <div class="total-row">
-
 <span>Total</span>
-
 <span id="total">Rp0</span>
-
 </div>
 
 <div class="total-row">
-
 <span>Tunai</span>
-
 <span id="tunai">Rp0</span>
-
 </div>
 
 <div class="total-row">
-
 <span>Kembalian</span>
-
 <span id="kembali">Rp0</span>
-
 </div>
 
 <hr>
@@ -211,7 +191,17 @@ id="tanggal">
 class="center small"
 id="footerStruk">
 
-Terima kasih 😊
+Terima kasih telah berbelanja
+<br><br>
+
+Yang mau dibuatin aplikasi kasir
+<br>
+
+hubungi WA 085156028912
+
+<br><br>
+
+Powered by PS-kasir
 
 </div>
 
@@ -239,8 +229,7 @@ const itemDiv = document.getElementById("items");
 
 const now = new Date();
 
-document.getElementById("tanggal").innerHTML =
-`
+document.getElementById("tanggal").innerHTML = `
 Tanggal : ${now.toLocaleDateString("id-ID")}
 <br>
 Jam : ${now.toLocaleTimeString("id-ID")}
@@ -248,9 +237,9 @@ Jam : ${now.toLocaleTimeString("id-ID")}
 
 items.forEach(item=>{
 
-itemDiv.innerHTML += `
+    itemDiv.innerHTML += `
 
-<div class="item">
+    <div class="item">
 
     <div class="item-row">
 
@@ -264,7 +253,7 @@ itemDiv.innerHTML += `
 
         <div class="item-right">
 
-            Rp ${(item.qty*item.harga).toLocaleString("id-ID")}
+            Rp ${(item.qty * item.harga).toLocaleString("id-ID")}
 
         </div>
 
@@ -276,9 +265,9 @@ itemDiv.innerHTML += `
 
 });
 
-document.getElementById("total").innerHTML = total;
-document.getElementById("tunai").innerHTML = tunai;
-document.getElementById("kembali").innerHTML = kembali;
+document.getElementById("total").textContent = total;
+document.getElementById("tunai").textContent = tunai;
+document.getElementById("kembali").textContent = kembali;
 
 // =======================
 // LOAD SETTING TOKO
@@ -303,24 +292,34 @@ db.setting.get(1).then(setting=>{
     if(!setting) return;
 
     document.getElementById("namaToko").textContent =
-    setting.namaToko;
+        setting.namaToko || "Pakseh";
 
-document.getElementById("alamat").textContent =
-    setting.alamat;
+    document.getElementById("alamat").textContent =
+        setting.alamat || "-";
 
-document.getElementById("telepon").textContent =
-    setting.telepon;
+    document.getElementById("telepon").textContent =
+        setting.telepon || "-";
 
-document.getElementById("footerStruk").textContent =
-    setting.footer;
+    document.getElementById("footerStruk").innerHTML =
+        setting.footer ||
+        `Terima kasih telah berbelanja
+        <br><br>
+        Yang mau dibuatin aplikasi kasir
+        <br>
+        hubungi WA 085156028912
+        <br><br>
+        Powered by PS-kasir`;
 
 });
 
-document.getElementById("printBtn").addEventListener("click", () => {
+document.getElementById("printBtn").addEventListener("click",()=>{
+
     window.print();
+
 });
 
-</script>
+    </script>
 
 </body>
+
 </html>

@@ -17,29 +17,51 @@
 
 body{
 
-    background:#f5f7fb;
+    background:#f4f6f9;
+
+}
+
+.navbar{
+
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
 
 }
 
 .card{
 
     border:none;
+
     border-radius:18px;
+
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+
+}
+
+.card-title{
+
+    font-weight:700;
 
 }
 
 .section-title{
 
     font-weight:700;
-    color:#444;
-    margin-bottom:20px;
+
+    color:#555;
+
+    margin-bottom:18px;
 
 }
 
-.form-control,
-.form-select{
+.form-control{
 
     border-radius:12px;
+
+}
+
+textarea{
+
+    resize:vertical;
 
 }
 
@@ -51,58 +73,41 @@ body{
 
 .preview-card{
 
+    width:80mm;
+
+    margin:auto;
+
     background:#fff;
-    border:2px dashed #d9d9d9;
-    border-radius:16px;
-    padding:20px;
+
+    border:2px dashed #ddd;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    font-size:13px;
+
+    line-height:1.5;
 
 }
 
 .preview-card h5{
 
-    margin-bottom:5px;
+    margin:0;
+
     font-weight:bold;
-    font-size:24px;
 
 }
 
-.preview-card hr{
+.preview-footer{
 
-    margin:12px 0;
+    white-space:pre-line;
 
-}
-
-.receipt-preview{
-
-    font-size:13px;
-    line-height:1.45;
-    white-space:pre-wrap;
-    word-break:break-word;
-
-}
-
-.receipt-footer{
-
-    font-size:12px;
     margin-top:10px;
-    white-space:pre-wrap;
-    word-break:break-word;
 
-}
+    line-height:1.6;
 
-textarea{
-
-    resize:vertical;
-
-}
-
-.badge-mm{
-
-    background:#198754;
-    color:#fff;
-    font-size:12px;
-    padding:4px 10px;
-    border-radius:20px;
+    text-align:center;
 
 }
 
@@ -112,7 +117,7 @@ textarea{
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
 <div class="container">
 
@@ -120,13 +125,15 @@ textarea{
 href="../index.html"
 class="btn btn-outline-light">
 
-🏠 Dashboard
+<i class="bi bi-house"></i>
+
+Dashboard
 
 </a>
 
-<span class="navbar-brand mx-auto fw-bold">
+<span class="navbar-brand mx-auto">
 
-⚙ Pengaturan PS-kasir
+⚙ PS-kasir
 
 </span>
 
@@ -136,53 +143,23 @@ class="btn btn-outline-light">
 
 <div class="container py-4">
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-<div>
-
-<h2 class="mb-1">
-
-⚙ Pengaturan
-
-</h2>
-
-<p class="text-muted mb-0">
-
-Konfigurasi aplikasi PS-kasir
-
-</p>
-
-</div>
-
-<div>
-
-<span class="badge-mm">
-
-Thermal 58 / 80 mm Ready
-
-</span>
-
-</div>
-
-</div>
-
 <div class="row g-4">
 
 <!-- ========================= -->
-<!-- KOLOM KIRI -->
+<!-- FORM -->
 <!-- ========================= -->
 
 <div class="col-lg-7">
 
-<div class="card shadow-sm">
+<div class="card">
 
 <div class="card-body">
 
-<h5 class="section-title">
+<h4 class="card-title mb-4">
 
 🏪 Identitas Toko
 
-</h5>
+</h4>
 
 <div class="mb-3">
 
@@ -196,7 +173,7 @@ Nama Toko
 id="namaToko"
 type="text"
 class="form-control"
-placeholder="Contoh : Pakseh">
+placeholder="Nama toko">
 
 </div>
 
@@ -210,9 +187,9 @@ Alamat
 
 <textarea
 id="alamat"
-class="form-control"
 rows="3"
-placeholder="Alamat lengkap toko"></textarea>
+class="form-control"
+placeholder="Alamat toko"></textarea>
 
 </div>
 
@@ -242,19 +219,13 @@ Footer Struk
 
 <textarea
 id="footer"
-class="form-control"
 rows="10"
-placeholder="Footer Struk"></textarea>
-
-<div class="form-text">
-
-Footer mendukung banyak baris dan akan tampil sama seperti hasil cetak struk.
+class="form-control"
+placeholder="Footer struk"></textarea>
 
 </div>
 
-</div>
-
-<hr>
+    <hr>
 
 <h5 class="section-title">
 
@@ -267,8 +238,7 @@ Footer mendukung banyak baris dan akan tampil sama seperti hasil cetak struk.
 <input
 class="form-check-input"
 type="checkbox"
-id="showAlamat"
-checked>
+id="showAlamat">
 
 <label class="form-check-label">
 
@@ -283,12 +253,11 @@ Tampilkan Alamat
 <input
 class="form-check-input"
 type="checkbox"
-id="showTelepon"
-checked>
+id="showTelepon">
 
 <label class="form-check-label">
 
-Tampilkan Nomor Telepon
+Tampilkan Telepon
 
 </label>
 
@@ -299,8 +268,7 @@ Tampilkan Nomor Telepon
 <input
 class="form-check-input"
 type="checkbox"
-id="showTanggal"
-checked>
+id="showTanggal">
 
 <label class="form-check-label">
 
@@ -310,7 +278,7 @@ Tampilkan Tanggal & Jam
 
 </div>
 
-<div class="d-flex gap-2">
+<div class="d-flex gap-2 flex-wrap">
 
 <button
 id="saveBtn"
@@ -324,7 +292,7 @@ class="btn btn-success">
 id="resetBtn"
 class="btn btn-warning">
 
-🔄 Reset Default
+🔄 Reset
 
 </button>
 
@@ -337,20 +305,20 @@ class="btn btn-warning">
 </div>
 
 <!-- ========================= -->
-<!-- KOLOM KANAN -->
+<!-- PREVIEW -->
 <!-- ========================= -->
 
 <div class="col-lg-5">
 
-<div class="card shadow-sm mb-4">
+<div class="card mb-3">
 
 <div class="card-body">
 
-<h5 class="section-title">
+<h4 class="card-title mb-4">
 
 👀 Preview Struk
 
-</h5>
+</h4>
 
 <div class="preview-card">
 
@@ -362,17 +330,13 @@ Pakseh
 
 </h5>
 
-<div
-id="previewAlamat"
-class="receipt-preview">
+<div id="previewAlamat">
 
 Alamat Toko
 
 </div>
 
-<div
-id="previewTelepon"
-class="receipt-preview">
+<div id="previewTelepon">
 
 085156028912
 
@@ -384,7 +348,7 @@ class="receipt-preview">
 
 <div
 id="previewFooter"
-class="receipt-footer text-center">
+class="preview-footer">
 
 ========================
 
@@ -409,7 +373,7 @@ Powered by Pakseh
 
 </div>
 
-<div class="card border-danger shadow-sm">
+    <div class="card border-danger">
 
 <div class="card-body">
 
@@ -419,9 +383,11 @@ Powered by Pakseh
 
 </h5>
 
-<p class="text-muted">
+<p class="text-muted mb-3">
 
-Gunakan menu ini dengan hati-hati karena data yang dihapus tidak dapat dikembalikan.
+Gunakan menu ini dengan hati-hati.
+
+Semua barang, transaksi dan laporan akan dihapus permanen.
 
 </p>
 
@@ -439,6 +405,8 @@ class="btn btn-danger w-100">
 
 </div>
 
+<!-- END COL RIGHT -->
+
 </div>
 
 </div>
@@ -447,6 +415,6 @@ class="btn btn-danger w-100">
 
 <script type="module" src="../assets/js/setting.js"></script>
 
-</body>
+    </body>
 
 </html>

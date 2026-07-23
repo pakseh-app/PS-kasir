@@ -228,17 +228,33 @@ id="tanggal">
 class="center small"
 id="footerStruk">
 
-Terima kasih telah berbelanja
+========================
+
 <br><br>
 
-Yang mau dibuatin aplikasi kasir
+Terima kasih
 <br>
-
-hubungi WA 085156028912
+telah berbelanja
 
 <br><br>
 
-Powered by PS-kasir
+Yang mau dibuatin
+<br>
+Aplikasi Kasir seperti ini lansung chat saja
+
+<br><br>
+
+WA
+<br>
+085156028912
+
+<br><br>
+
+Powered by.Pakseh
+
+<br><br>
+
+========================
 
 </div>
 
@@ -266,10 +282,21 @@ const itemDiv = document.getElementById("items");
 
 const now = new Date();
 
+const tanggal = now.toLocaleDateString("id-ID",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+});
+
+const jam = now.toLocaleTimeString("id-ID",{
+    hour:"2-digit",
+    minute:"2-digit"
+});
+
 document.getElementById("tanggal").innerHTML = `
-Tanggal : ${now.toLocaleDateString("id-ID")}
+${tanggal}
 <br>
-Jam : ${now.toLocaleTimeString("id-ID")}
+${jam} WIB
 `;
 
 items.forEach(item=>{

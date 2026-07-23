@@ -70,26 +70,40 @@ hr{
 .item-left{
     flex:1;
     min-width:0;
+
+    white-space:normal;
+    overflow-wrap:anywhere;
     word-break:break-word;
 }
 
 .item-right{
-    width:70px;
+    width:72px;
     text-align:right;
     white-space:nowrap;
+    font-weight:bold;
     flex-shrink:0;
 }
 
 .total-row{
+
     display:flex;
+
     justify-content:space-between;
+
+    align-items:center;
+
     font-weight:bold;
-    margin:3px 0;
+
+    margin:4px 0;
+
 }
 
 .total-row span:last-child{
+
     width:80px;
+
     text-align:right;
+
 }
 
 button{
@@ -98,29 +112,52 @@ button{
 
 @media print{
 
+    html,
     body{
+        width:80mm;
+        height:auto !important;
         margin:0;
         padding:0;
+        overflow:visible !important;
         background:#fff;
     }
 
     #receipt{
         width:80mm;
         max-width:80mm;
+        min-height:auto;
         margin:0 auto;
         padding:3mm;
+        box-sizing:border-box;
         box-shadow:none;
+
+        page-break-inside:avoid;
+        break-inside:avoid;
+    }
+
+    .item,
+    .item-row,
+    .total-row,
+    #footerStruk{
+
+        page-break-inside:avoid;
+        break-inside:avoid;
+
     }
 
     #printBtn{
+
         display:none;
+
     }
 
 }
 
 @page{
+
     size:80mm auto;
-    margin:0;
+    margin:2mm;
+
 }
 
 </style>

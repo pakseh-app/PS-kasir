@@ -377,14 +377,21 @@ db.setting.get(1).then(setting=>{
         setting.telepon || "-";
 
     document.getElementById("footerStruk").innerHTML =
-        setting.footer ||
-        `Terima kasih telah berbelanja
-        <br><br>
-        Yang mau dibuatin aplikasi kasir
-        <br>
-        hubungi WA 085156028912
-        <br><br>
-        Powered by PS-kasir`;
+(
+    setting.footer ||
+
+`Terima kasih
+telah berbelanja
+
+Yang mau dibuatin
+Aplikasi Kasir
+
+WA
+085156028912
+
+Powered by Pakseh`
+
+).replace(/\n/g,"<br>");
 
 });
 

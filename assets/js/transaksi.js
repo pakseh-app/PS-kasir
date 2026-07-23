@@ -1,322 +1,501 @@
 import db from "./db.js";
 
-const daftarBarang=document.getElementById("daftarBarang");
-const keranjangDiv=document.getElementById("keranjang");
-const totalBelanja=document.getElementById("totalBelanja");
-const bayar=document.getElementById("bayar");
-const previewBtn=document.getElementById("previewBtn");
-const kembalian=document.getElementById("kembalian");
+// =====================================
+// ELEMENT
+// =====================================
 
-let keranjang=[];
+const daftarBarang = document.getElementById("daftarBarang");
+const keranjangDiv = document.getElementById("keranjang");
+
+const totalBelanja = document.getElementById("totalBelanja");
+const bayar = document.getElementById("bayar");
+const kembalian = document.getElementById("kembalian");
+
+const previewBtn = document.getElementById("previewBtn");
+const jumlahItem = document.getElementById("jumlahItem");
+
+// =====================================
+// DATA
+// =====================================
+
+let keranjang = [];
+
+// =====================================
+// FORMAT RUPIAH
+// =====================================
+
+function rupiah(nilai){
+
+    return "Rp " + Number(nilai).toLocaleString("id-ID");
+
+}
+
+// =====================================
+// LOAD BARANG
+// =====================================
 
 async function loadBarang(){
 
-const barang=await db.barang.toArray();
+    const barang = await db.barang.toArray();
 
-daftarBarang.innerHTML="";
+    daftarBarang.innerHTML = "";
 
-barang.forEach(item => {
+    if(barang.length === 0){
 
-    daftarBarang.innerHTML += `
+        daftarBarang.innerHTML = `
 
-    <div class="produk-card">
+        <div class="alert alert-warning w-100">
 
-        <img
-            class="produk-img"
-            src="../assets/img/no-image.png"
-            alt="${item.nama}">
-
-        <div class="produk-body">
-
-            <div class="produk-nama">
-
-                ${item.nama}
-
-            </div>
-
-            <div class="produk-harga">
-
-                Rp ${item.harga.toLocaleString()}
-
-            </div>
-
-            <div class="produk-stok">
-
-                Stok ${item.stok}
-
-            </div>
-
-            <button
-                class="btn btn-success btn-tambah"
-                onclick="tambahKeranjang(${item.id})">
-
-                + Tambah
-
-            </button>
+            Belum ada data barang.
 
         </div>
 
-    </div>
+        `;
 
-    `;
+        return;
 
-});
-}
+    }
 
-window.tambahKeranjang=async(id)=>{
+    barang.forEach(item=>{
 
-const barang=await db.barang.get(id);
+        daftarBarang.innerHTML += `
 
-const ada=keranjang.find(x=>x.id===id);
+        <div class="produk-card">
 
-if(ada){
+            <img
+                class="produk-img"
+                src="../assets/img/no-image.png"
+                alt="${item.nama}">
 
-ada.qty++;
+            <div class="produk-body">
 
-}else{
+                <div class="produk-nama">
 
-keranjang.push({
+                    ${item.nama}
 
-id:barang.id,
+                </div>
 
-nama:barang.nama,
+                <div class="produk-harga">
 
-harga:barang.harga,
+                    ${rupiah(item.harga)}
 
-qty:1
+                </div>
 
-});
+                <div class="produk-stok">
 
-}
+                    Stok : ${item.stok}
 
-render();
+                </div>
 
-}
+                <button
+                    class="btn btn-success btn-tambah"
+                    onclick="tambahKeranjang(${item.id})"
+                    ${item.stok <= 0 ? "disabled" : ""}>
 
-window.plus=(id)=>{
+                    ${item.stok <= 0 ? "Stok Habis" : "+ Tambah"}
 
-keranjang.find(x=>x.id===id).qty++;
+                </button>
 
-render();
+            </div>
 
-}
+        </div>
 
-window.minus=(id)=>{
+        `;
 
-const item=keranjang.find(x=>x.id===id);
-
-item.qty--;
-
-if(item.qty<=0){
-
-keranjang=
-keranjang.filter(x=>x.id!==id);
+    });
 
 }
 
-render();
+// =====================================
+// TAMBAH KE KERANJANG
+// =====================================
 
-}
+window.tambahKeranjang = async(id)=>{
+
+    const barang = await db.barang.get(id);
+
+    if(!barang) return;
+
+    const item = keranjang.find(x=>x.id===id);
+
+    if(item){
+
+        if(item.qty >= barang.stok){
+
+            alert("Stok tidak mencukupi.");
+
+            return;
+
+        }
+
+        item.qty++;
+
+    }else{
+
+        if(barang.stok <= 0){
+
+            alert("Stok habis.");
+
+            return;
+
+        }
+
+        keranjang.push({
+
+            id:barang.id,
+
+            nama:barang.nama,
+
+            harga:barang.harga,
+
+            qty:1
+
+        });
+
+    }
+
+    render();
+
+};
+
+// =====================================
+// TAMBAH QTY
+// =====================================
+
+window.plus = async(id)=>{
+
+    const barang = await db.barang.get(id);
+
+    const item = keranjang.find(x=>x.id===id);
+
+    if(!item) return;
+
+    if(item.qty >= barang.stok){
+
+        alert("Jumlah melebihi stok.");
+
+        return;
+
+    }
+
+    item.qty++;
+
+    render();
+
+};
+
+// =====================================
+// KURANGI QTY
+// =====================================
+
+window.minus = (id)=>{
+
+    const item = keranjang.find(x=>x.id===id);
+
+    if(!item) return;
+
+    item.qty--;
+
+    if(item.qty <= 0){
+
+        keranjang = keranjang.filter(x=>x.id!==id);
+
+    }
+
+    render();
+
+};
+
+// =====================================
+// RENDER KERANJANG
+// =====================================
 
 function render(){
 
-keranjangDiv.innerHTML="";
+    keranjangDiv.innerHTML = "";
 
-let total=0;
+    let total = 0;
 
-keranjang.forEach(item => {
+    let totalItem = 0;
 
-    const subtotal = item.qty * item.harga;
+    if(keranjang.length === 0){
 
-    total += subtotal;
+        keranjangDiv.innerHTML = `
 
-    keranjangDiv.innerHTML += `
+        <div class="text-center text-muted py-4">
 
-    <div class="item-cart">
+            Keranjang masih kosong.
 
-        <div class="item-info">
+        </div>
 
-            <div class="item-nama">
+        `;
 
-                ${item.nama}
+    }
+
+    keranjang.forEach(item=>{
+
+        const subtotal = item.qty * item.harga;
+
+        total += subtotal;
+
+        totalItem += item.qty;
+
+        keranjangDiv.innerHTML += `
+
+        <div class="item-cart">
+
+            <div class="item-info">
+
+                <div class="item-nama">
+
+                    ${item.nama}
+
+                </div>
+
+                <div class="item-harga">
+
+                    ${rupiah(item.harga)} × ${item.qty}
+
+                </div>
+
+                <div class="fw-bold text-success mt-1">
+
+                    ${rupiah(subtotal)}
+
+                </div>
 
             </div>
 
-            <div class="item-harga">
+            <div class="qty-box">
 
-                Rp ${item.harga.toLocaleString()} × ${item.qty}
+                <button
+                    class="qty-btn"
+                    onclick="minus(${item.id})">
 
-            </div>
+                    −
 
-            <div class="fw-bold mt-1 text-success">
+                </button>
 
-                Rp ${subtotal.toLocaleString()}
+                <span class="qty-value">
+
+                    ${item.qty}
+
+                </span>
+
+                <button
+                    class="qty-btn"
+                    onclick="plus(${item.id})">
+
+                    +
+
+                </button>
 
             </div>
 
         </div>
 
-        <div class="qty-box">
+        `;
 
-            <button
-                class="qty-btn"
-                onclick="minus(${item.id})">
+    });
 
-                −
+    // ===============================
+    // BADGE JUMLAH ITEM
+    // ===============================
 
-            </button>
+    if(jumlahItem){
 
-            <span class="qty-value">
+        jumlahItem.textContent = totalItem + " Item";
 
-                ${item.qty}
+    }
 
-            </span>
+    // ===============================
+    // TOTAL BELANJA
+    // ===============================
 
-            <button
-                class="qty-btn"
-                onclick="plus(${item.id})">
+    totalBelanja.textContent = rupiah(total);
 
-                +
+    // ===============================
+    // HITUNG KEMBALIAN
+    // ===============================
 
-            </button>
+    const uang = Number(bayar.value) || 0;
 
-        </div>
+    if(uang >= total){
 
-    </div>
+        kembalian.textContent = rupiah(uang - total);
 
-    `;
+    }else{
 
-});
+        kembalian.textContent = rupiah(0);
 
-totalBelanja.innerHTML="Rp "+total.toLocaleString();
-
-const uang=Number(bayar.value);
-
-if(uang>0){
-
-kembalian.innerHTML=
-
-"Rp "+(uang-total).toLocaleString();
-
-}else{
-
-kembalian.innerHTML="Rp0";
+    }
 
 }
 
-}
+// =====================================
+// UPDATE KEMBALIAN SAAT MENGETIK
+// =====================================
 
-bayar.addEventListener("keyup",render);
+bayar.addEventListener("input", render);
+
+// =====================================
+// LOAD AWAL
+// =====================================
 
 loadBarang();
 
-previewBtn.onclick = async () => {
+render();
 
-    if (keranjang.length === 0) {
+// =====================================
+// PREVIEW & SIMPAN TRANSAKSI
+// =====================================
+
+previewBtn.addEventListener("click", async()=>{
+
+    if(keranjang.length === 0){
+
         alert("Keranjang masih kosong.");
+
         return;
+
     }
 
     const total = keranjang.reduce(
-        (sum, item) => sum + (item.qty * item.harga),
+
+        (sum,item)=>sum + (item.qty * item.harga),
+
         0
+
     );
 
-    const tunai = Number(bayar.value);
+    const tunai = Number(bayar.value) || 0;
 
-    if (tunai < total) {
+    if(tunai < total){
+
         alert("Uang pembayaran kurang.");
+
+        bayar.focus();
+
         return;
+
     }
 
     const kembali = tunai - total;
 
-    // ============================
-    // SIMPAN TRANSAKSI
-    // ============================
+    try{
 
-    const transaksiId = await db.transaksi.add({
+        // ==========================
+        // SIMPAN TRANSAKSI
+        // ==========================
 
-        tanggal: new Date().toLocaleString("id-ID"),
+        const transaksiId = await db.transaksi.add({
 
-        total: total,
+            tanggal:new Date().toLocaleString("id-ID"),
 
-        tunai: tunai,
+            total,
 
-        kembalian: kembali
+            tunai,
 
-    });
-
-    // ============================
-    // SIMPAN DETAIL
-    // ============================
-
-    for (const item of keranjang) {
-
-        await db.detail.add({
-
-            transaksiId: transaksiId,
-
-            barangId: item.id,
-
-            nama: item.nama,
-
-            harga: item.harga,
-
-            qty: item.qty
+            kembalian:kembali
 
         });
 
-        // ============================
-        // KURANGI STOK
-        // ============================
+        // ==========================
+        // SIMPAN DETAIL + UPDATE STOK
+        // ==========================
 
-        const barang = await db.barang.get(item.id);
+        for(const item of keranjang){
 
-        await db.barang.update(item.id, {
+            await db.detail.add({
 
-            stok: barang.stok - item.qty
+                transaksiId,
 
-        });
+                barangId:item.id,
+
+                nama:item.nama,
+
+                harga:item.harga,
+
+                qty:item.qty
+
+            });
+
+            const barang = await db.barang.get(item.id);
+
+            await db.barang.update(item.id,{
+
+                stok:barang.stok - item.qty
+
+            });
+
+        }
+
+        // ==========================
+        // DATA UNTUK PREVIEW STRUK
+        // ==========================
+
+        localStorage.setItem(
+
+            "keranjang",
+
+            JSON.stringify(keranjang)
+
+        );
+
+        localStorage.setItem(
+
+            "total",
+
+            rupiah(total)
+
+        );
+
+        localStorage.setItem(
+
+            "tunai",
+
+            rupiah(tunai)
+
+        );
+
+        localStorage.setItem(
+
+            "kembali",
+
+            rupiah(kembali)
+
+        );
+
+        // ==========================
+        // BUKA PREVIEW
+        // ==========================
+
+        window.open(
+
+            "preview.html",
+
+            "_blank"
+
+        );
+
+        // ==========================
+        // RESET TRANSAKSI
+        // ==========================
+
+        keranjang = [];
+
+        bayar.value = "";
+
+        render();
+
+        await loadBarang();
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Terjadi kesalahan saat menyimpan transaksi.");
 
     }
 
-    // ============================
-    // KIRIM KE PREVIEW
-    // ============================
-
-    localStorage.setItem(
-        "keranjang",
-        JSON.stringify(keranjang)
-    );
-
-    localStorage.setItem(
-        "total",
-        "Rp " + total.toLocaleString("id-ID")
-    );
-
-    localStorage.setItem(
-        "tunai",
-        "Rp " + tunai.toLocaleString("id-ID")
-    );
-
-    localStorage.setItem(
-        "kembali",
-        "Rp " + kembali.toLocaleString("id-ID")
-    );
-
-    window.open("preview.html", "_blank");
-
-    // ============================
-    // RESET HALAMAN
-    // ============================
-
-    keranjang = [];
-
-    bayar.value = "";
-
-    render();
-
-    loadBarang();
-
-};
+});

@@ -20,97 +20,80 @@ body{
 
 #receipt{
     width:80mm;
+    max-width:80mm;
     margin:auto;
-    background:white;
-    padding:15px;
+    background:#fff;
+    padding:4mm;
+    color:#000;
+    font-size:13px;
+    line-height:1.4;
+    box-sizing:border-box;
 }
 
 .center{
-
     text-align:center;
-
 }
 
 #logo{
-
-    width:70px;
-    margin-bottom:10px;
-
+    width:60px;
+    margin-bottom:6px;
 }
 
 h4{
-
     margin:0;
-
+    font-size:18px;
+    font-weight:bold;
 }
 
 .small{
-
-    font-size:13px;
-
+    font-size:12px;
 }
 
 hr{
-
+    border:none;
     border-top:1px dashed #000;
-    opacity:1;
-
+    margin:6px 0;
 }
 
 .item{
-
-    margin-bottom:8px;
-
+    margin-bottom:6px;
 }
 
 .item-row{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
-    width:100%;
-    gap:10px;
+    gap:8px;
 }
 
 .item-left{
     flex:1;
+    min-width:0;
     word-break:break-word;
 }
 
 .item-right{
-    width:80px;
+    width:70px;
     text-align:right;
     white-space:nowrap;
+    flex-shrink:0;
 }
 
 .total-row{
     display:flex;
     justify-content:space-between;
-    margin:4px 0;
+    font-weight:bold;
+    margin:3px 0;
 }
 
 .total-row span:last-child{
+    width:80px;
     text-align:right;
-    min-width:90px;
-}
-
-.total-table{
-
-    width:100%;
-
-}
-
-.total-table td{
-
-    padding:3px 0;
-
 }
 
 button{
-
-    margin-top:20px;
-
+    margin-top:15px;
 }
-
 @media print{
 
     body{
